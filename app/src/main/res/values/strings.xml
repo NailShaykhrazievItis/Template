@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Template</string>
+    <string name="email">Enter email</string>
+    <string name="password">Enter password</string>
+    <string name="sign_in">Sign in</string>
+    <string name="text">Change password</string>
+    <string name="picture">Picture</string>
+    <string name="welcome">Welcome :)</string>
+    <string name="validate_password">wrong password</string>
 </resources>
