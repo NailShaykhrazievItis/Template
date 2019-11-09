@@ -1,9 +1,7 @@
 package com.itis.template
 
-import kotlinx.android.synthetic.main.activity_main.*
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.recyclerview.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -13,8 +11,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val items = listOf(
-                Subject("Математика", "Описание математики", 1),
-                Subject("Информатика", "Описание информатики", 2)
+                Subject("Математика", "Описание математики", R.drawable.ic_launcher_background),
+                Subject("Информатика", "Описание информатики", R.drawable.ic_launcher_background)
         )
 
         val myAdapter = MainAdapter(items, object : MainAdapter.Callback {
