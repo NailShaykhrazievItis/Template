@@ -1,3 +1,23 @@
 <resources>
-    <string name="app_name">Template</string>
+    <string name="app_name">AndroidLab</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Nurieva Rimma</string>
+    <string name="nav_header_subtitle">nurrievari@gmail.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_profile">Profile</string>
+    <string name="menu_messages">Messages</string>
+    <string name="menu_search">Search</string>
+    <string name="menu_groups">Groups</string>
+
+    <string name="button_create_group">Create group</string>
+
+    <string name="group_creation_title_hint">Title</string>
+    <string name="group_creation_subtitle_hint">Subtitle</string>
+    <string name="group_creation_desc_hint">Description</string>
+    <string name="title_group_creation">Create group</string>
+    <string name="title_group">Group</string>
 </resources>
