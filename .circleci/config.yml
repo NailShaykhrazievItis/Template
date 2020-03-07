@@ -47,6 +47,7 @@ jobs:
   detekt:
     <<: *android_config
     steps:
+      - checkout
       - *restore_cache
       - run:
           name: Run Detekt
@@ -58,6 +59,7 @@ jobs:
   test_unit:
     <<: *android_config
     steps:
+      - checkout
       - *restore_cache
       - run:
           name: Run unit tests
@@ -72,6 +74,7 @@ jobs:
   linter:
     <<: *android_config
     steps:
+      - checkout
       - *restore_cache
       - run:
           name: Run linter
