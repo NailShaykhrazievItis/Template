@@ -16,7 +16,7 @@ references:
         - ~/.m2
 
   workspace: &workspace
-    ~/home/circleci/template
+    ~/workspace
 
   chmod_permissions: &chmod_permissions
     run:
