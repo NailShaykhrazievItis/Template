@@ -49,6 +49,7 @@ jobs:
     steps:
       - checkout
       - *restore_cache
+      - *chmod_permissions
       - run:
           name: Run Detekt
           command: ./gradlew detekt
@@ -61,6 +62,7 @@ jobs:
     steps:
       - checkout
       - *restore_cache
+      - *chmod_permissions
       - run:
           name: Run unit tests
           command: ./gradlew testDebugUnitTest
@@ -76,6 +78,7 @@ jobs:
     steps:
       - checkout
       - *restore_cache
+      - *chmod_permissions
       - run:
           name: Run linter
           command: ./gradlew lintDebug
