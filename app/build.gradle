@@ -3,8 +3,14 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'io.gitlab.arturbosch.detekt'
 
+ext {
+    API_KEY = ""
+}
+
 if ("true" == System.getenv("CI")) {
-    apiKey = System.getenv("OPEN_WEATHER_KEY")
+    API_KEY = System.getenv("OPEN_WEATHER_KEY")
+} else {
+    API_KEY = apiKey
 }
 
 android {
@@ -29,7 +35,7 @@ android {
     }
     buildTypes.each {
         it.buildConfigField 'String', 'API_ENDPOINT', baseUrl
-        it.buildConfigField 'String', 'API_KEY', apiKey
+        it.buildConfigField 'String', 'API_KEY', API_KEY
     }
     compileOptions {
         sourceCompatibility = "1.8"
