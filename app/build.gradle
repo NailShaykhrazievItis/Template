@@ -3,6 +3,10 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'io.gitlab.arturbosch.detekt'
 
+if ("true" == System.getenv("CI")) {
+    apiKey = System.getenv("OPEN_WEATHER_KEY")
+}
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
