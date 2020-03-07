@@ -88,7 +88,7 @@ workflows:
           filters:
             tags:
               only: /^.*/
-      - check_style:
+      - detekt:
           requires:
             - dependencies
           filters:
@@ -102,7 +102,7 @@ workflows:
               only: /^.*/
       - linter:
           requires:
-            - check_style
+            - detekt
             - test_unit
           filters:
             tags:
