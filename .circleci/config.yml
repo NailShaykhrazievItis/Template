@@ -81,7 +81,7 @@ jobs:
       - *chmod_permissions
       - run:
           name: Run linter
-          command: ./gradlew lintDebug
+          command: ./gradlew lint
       - store_artifacts:
           path: app/build/reports/
           destination: /reports/

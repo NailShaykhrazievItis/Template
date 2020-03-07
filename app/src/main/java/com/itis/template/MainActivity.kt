@@ -7,6 +7,7 @@ import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
+    @Suppress("LateinitUsage")
     private lateinit var service: WeatherService
 
     override fun onCreate(savedInstanceState: Bundle?) {
