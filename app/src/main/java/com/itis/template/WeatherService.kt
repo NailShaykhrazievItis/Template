@@ -1,7 +1,6 @@
 package com.itis.template
 
 import com.itis.template.response.WeatherResponse
-import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 

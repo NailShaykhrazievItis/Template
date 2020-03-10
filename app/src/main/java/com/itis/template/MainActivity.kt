@@ -1,20 +1,13 @@
 package com.itis.template
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
-import com.itis.template.response.WeatherResponse
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.lang.Exception
 
 class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
+    @Suppress("LateinitUsage")
     private lateinit var service: WeatherService
 
     override fun onCreate(savedInstanceState: Bundle?) {
