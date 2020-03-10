@@ -8,7 +8,8 @@ ext {
 }
 
 if ("true" == System.getenv("CI")) {
-    API_KEY = 'key'
+    def b = System.getenv("OPEN_WEATHER_KEY")
+    API_KEY = "\"$b\""
 } else {
     API_KEY = apiKey
 }
