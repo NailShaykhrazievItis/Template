@@ -1,27 +1,23 @@
-package com.itis.template
+package com.itis.template.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
-import com.itis.template.response.WeatherResponse
-import kotlinx.android.synthetic.main.activity_main.*
+import com.itis.template.App
+import com.itis.template.R
+import com.itis.template.api.WeatherService
 import kotlinx.coroutines.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.lang.Exception
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
-    private lateinit var service: WeatherService
+    @Inject
+    lateinit var service: WeatherService
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        App.appComponent.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        service = ApiFactory.weatherService
 
         launch {
             val response = withContext(Dispatchers.IO) {
