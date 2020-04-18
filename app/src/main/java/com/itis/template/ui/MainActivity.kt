@@ -5,23 +5,23 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.itis.template.App
 import com.itis.template.R
-import com.itis.template.api.WeatherService
+import com.itis.template.repository.WeatherRepository
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
     @Inject
-    lateinit var service: WeatherService
+    lateinit var repository: WeatherRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        App.appComponent.inject(this)
+        App.mainComponent.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         launch {
             val response = withContext(Dispatchers.IO) {
-                service.weatherByName("Moscow")
+                repository.fetch("Moscow")
             }
             Snackbar.make(
                 findViewById(android.R.id.content),
