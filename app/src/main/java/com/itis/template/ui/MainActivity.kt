@@ -5,20 +5,31 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.google.android.material.snackbar.Snackbar
 import com.itis.template.App
 import com.itis.template.R
-import com.itis.template.repository.WeatherRepository
 import kotlinx.android.synthetic.main.activity_main.*
+import moxy.MvpAppCompatActivity
+import moxy.ktx.moxyPresenter
 import javax.inject.Inject
+import javax.inject.Provider
 
-class MainActivity : AppCompatActivity(), MainView {
+class MainActivity : MvpAppCompatActivity(), MainView {
+
+//    @Inject
+//    @InjectPresenter
+//    lateinit var presenter: MainPresenter
+//
+//    @ProvidePresenter
+//    fun providePresenter() = presenter
 
     @Inject
-    lateinit var repository: WeatherRepository
-    lateinit var presenter: MainPresenter
+    lateinit var presenterProvider: Provider<MainPresenter>
+
+    private val presenter: MainPresenter by moxyPresenter {
+        presenterProvider.get()
+    }
 
     private var progress: ProgressDialog? = null
 
@@ -27,15 +38,7 @@ class MainActivity : AppCompatActivity(), MainView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        presenter = MainPresenter(this, repository)
-        presenter.fetchWeather()
-
         initListeners()
-    }
-
-    override fun onDestroy() {
-        presenter.clearData()
-        super.onDestroy()
     }
 
     override fun showError(throwable: Throwable) {

@@ -9,11 +9,15 @@ import com.itis.template.di.module.AppModule
 import com.itis.template.di.module.NetModule
 import com.itis.template.di.module.ServiceModule
 import com.itis.template.di.module.WeatherModule
+import moxy.MvpFacade
 
 class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        MvpFacade.init()
+
         appComponent = DaggerAppComponent.builder()
             .appModule(AppModule(this))
             .netModule(NetModule())

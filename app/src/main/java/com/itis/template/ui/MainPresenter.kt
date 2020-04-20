@@ -1,45 +1,50 @@
 package com.itis.template.ui
 
 import com.itis.template.repository.WeatherRepository
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import moxy.MvpPresenter
+import moxy.presenterScope
+import javax.inject.Inject
 
-class MainPresenter(
-    private var view: MainView?,
+class MainPresenter @Inject constructor(
     private val repository: WeatherRepository
-) : CoroutineScope by MainScope() {
+) : MvpPresenter<MainView>() {
 
-    fun onHelloClick() {
-        view?.setResult("HeLLo general kenobi")
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
+        fetchWeather()
     }
 
-    fun fetchWeather() {
-        launch {
-            view?.showLoading()
+    fun onHelloClick() {
+        viewState.setResult("HeLLo general kenobi")
+    }
+
+    private fun fetchWeather() {
+        presenterScope.launch {
+            viewState.showLoading()
             delay(1500)
             try {
                 withContext(Dispatchers.IO) {
                     repository.fetch("Moscow")
                 }.let {
-                    view?.setResult(it.main.toString())
+                    viewState.setResult(it.main.toString())
                 }
             } catch (ex: Throwable) {
-                view?.showError(ex)
+                viewState.showError(ex)
             } finally {
-                view?.hideLoading()
+                viewState.hideLoading()
             }
         }
     }
 
     fun onPermissionCheck(result: Boolean) {
         if (!result) {
-            view?.requestPermissions()
+            viewState.requestPermissions()
         } else {
             // request
         }
-    }
-
-    fun clearData() {
-        coroutineContext.cancelChildren()
-        view = null
     }
 }
