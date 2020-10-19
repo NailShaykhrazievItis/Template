@@ -7,7 +7,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    private var adapter: Book2Adapter? = null
+    private var adapter: BookAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         rv_book.addItemDecoration(SpaceItemDecoration(this))
 
         swipe.setOnRefreshListener {
-            adapter?.updateDataSource(arrayListOf(Book("test", "amazing")))
+            adapter?.updateDataSource(arrayListOf(Book(1, "test", "amazing")))
             swipe.isRefreshing = false
         }
     }
