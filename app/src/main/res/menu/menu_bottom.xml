@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/asv"
+        android:icon="@android:drawable/ic_dialog_email"
+        android:title="Test1" />
+
+    <item
+        android:id="@+id/add"
+        android:icon="@android:drawable/ic_input_add"
+        android:title="Test1" />
+
+    <item
+        android:id="@+id/profile"
+        android:icon="@android:drawable/btn_star_big_on"
+        android:title="Test1" />
+
+    <item
+        android:id="@+id/profile2"
+        android:icon="@android:drawable/ic_dialog_map"
+        android:title="Test1" />
+</menu>

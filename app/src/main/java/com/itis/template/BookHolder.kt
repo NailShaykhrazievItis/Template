@@ -1,5 +1,7 @@
 package com.itis.template
 
+import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,6 +27,21 @@ class BookHolder(
         with(book) {
             tv_name.text = name
             tv_desc.text = author
+        }
+    }
+
+    fun updateFields(bundle: Bundle) {
+        if (bundle.containsKey("ARG_NAME")) {
+            bundle.getString("ARG_NAME").also {
+                Log.e("HOLDER", "ARG_NAME $it")
+                tv_name.text = it
+            }
+        }
+        if (bundle.containsKey("ARG_AUTHOR")) {
+            bundle.getString("ARG_AUTHOR").also {
+                Log.e("HOLDER", "ARG_AUTHOR $it")
+                tv_desc.text = it
+            }
         }
     }
 
