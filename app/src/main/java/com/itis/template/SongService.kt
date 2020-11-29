@@ -6,11 +6,14 @@ import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
+import java.util.*
 import kotlin.random.Random
 
 class SongService : Service() {
 
     private var mediaPlayer: MediaPlayer = MediaPlayer()
+    private var callback: SongCallback? = null
+    private var timer: Timer? = null
 
     private val serviceSong = Song().apply {
         name = "ServiceSong"
@@ -45,6 +48,21 @@ class SongService : Service() {
                 }
             }
         }
+
+        override fun setListener(callback: SongCallback?) {
+            this@SongService.callback = callback
+        }
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        timer = Timer().apply {
+            schedule(object : TimerTask() {
+                override fun run() {
+                    callback?.applyTime((if (mediaPlayer.isPlaying) mediaPlayer.currentPosition else 0) / 1000)
+                }
+            }, 0, 1000)
+        }
     }
 
     override fun onBind(intent: Intent): IBinder = mBinder
@@ -52,6 +70,7 @@ class SongService : Service() {
     override fun onDestroy() {
         super.onDestroy()
         mediaPlayer.release()
+        timer?.cancel()
     }
 
     private fun sumOfMultiply(a: Int, b: Int) = a * 2 + b * 3

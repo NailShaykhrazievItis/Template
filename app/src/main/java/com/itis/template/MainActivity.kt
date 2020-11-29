@@ -34,6 +34,12 @@ class MainActivity : AppCompatActivity() {
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
             Log.e("LOG_TAG", "MainActivity onServiceConnected")
             songService = ISongAidlInterface.Stub.asInterface(service)
+            songService?.setListener(object : SongCallback.Stub() {
+                @Throws
+                override fun applyTime(duration: Int) {
+                    Log.e("MainActivity", "DURATION: $duration sec")
+                }
+            })
         }
 
         override fun onServiceDisconnected(className: ComponentName) {

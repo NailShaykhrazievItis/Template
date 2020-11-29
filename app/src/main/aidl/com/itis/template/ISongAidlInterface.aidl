@@ -13,6 +13,13 @@ interface ISongAidlInterface {
     Song getSong();
     void setCurrentSong(in Song song);
     void setCurrentSongFromBundle(in Bundle bundle);
+
+    void setListener(SongCallback callback);
 }
 
 parcelable Song;
+
+interface SongCallback {
+
+    oneway void applyTime(int duration);
+}
