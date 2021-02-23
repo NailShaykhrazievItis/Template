@@ -1,5 +1,6 @@
-package com.itis.template
+package com.itis.template.data.api
 
+import com.itis.template.BuildConfig
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
