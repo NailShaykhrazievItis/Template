@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 29
@@ -33,6 +34,7 @@ android {
 }
 
 def retrofit = "2.9.0"
+def moxy = "2.2.1"
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -52,7 +54,13 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:${retrofit}"
     // endregion
 
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.12.8' // 3.13.+ require minSDK 21
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.12.8'
+    implementation 'com.google.android.gms:play-services-location:18.0.0'// 3.13.+ require minSDK 21
+
+    implementation "com.github.moxy-community:moxy:$moxy"
+    implementation "com.github.moxy-community:moxy-androidx:$moxy"
+    implementation "com.github.moxy-community:moxy-ktx:$moxy"
+    kapt "com.github.moxy-community:moxy-compiler:$moxy"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
