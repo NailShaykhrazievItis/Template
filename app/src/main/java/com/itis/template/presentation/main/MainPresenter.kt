@@ -11,6 +11,11 @@ class MainPresenter(
     private val locationRepository: LocationRepositoryImpl
 ) : MvpPresenter<MainView>() {
 
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
+        onHelloClick() // fetching city(-ies) when user opens screen
+    }
+
     fun onHelloClick() {
         presenterScope.launch {
             try {
