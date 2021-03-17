@@ -31,6 +31,9 @@ android {
         sourceCompatibility = "1.8"
         targetCompatibility = "1.8"
     }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
 }
 
 def retrofit = "2.9.0"
@@ -48,6 +51,9 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2"
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0'
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.0"
+
 
     // region Retrofit
     implementation "com.squareup.retrofit2:retrofit:${retrofit}"
