@@ -7,11 +7,11 @@ import dagger.Module
 import dagger.Provides
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Named
+import javax.inject.Singleton
 
 private const val QUERY_API_KEY = "appid"
 private const val QUERY_LANG_KEY = "lang"
@@ -20,14 +20,16 @@ private const val QUERY_LANG_KEY = "lang"
 class NetModule {
 
     @Provides
-    fun provideWeatherApi(retrofit: Retrofit): WeatherApi =
-        retrofit.create(WeatherApi::class.java)
+    @Singleton
+    fun provideWeatherApi(retrofit: Retrofit): WeatherApi = retrofit.create(WeatherApi::class.java)
 
     @Provides
+    @Singleton
     @Named("loggingInterceptor")
     fun provideLoggingInterceptor(): Interceptor = LoggingInterceptor()
 
     @Provides
+    @Singleton
     @Named("apiInterceptor")
     fun provideApiKeyInterceptor(): Interceptor = Interceptor { chain ->
         val original = chain.request()
@@ -42,6 +44,7 @@ class NetModule {
     }
 
     @Provides
+    @Singleton
     @Named("langInterceptor")
     fun provideLangInterceptor(): Interceptor = Interceptor { chain ->
         val original = chain.request()
@@ -56,29 +59,25 @@ class NetModule {
     }
 
     @Provides
+    @Singleton
     fun provideClient(
         @Named("apiInterceptor") apiKeyInterceptor: Interceptor,
         @Named("langInterceptor") langInterceptor: Interceptor,
         @Named("loggingInterceptor") loggingInterceptor: Interceptor,
-    ): OkHttpClient =
-        OkHttpClient.Builder()
+    ): OkHttpClient = OkHttpClient.Builder()
             .addInterceptor(apiKeyInterceptor)
             .addInterceptor(loggingInterceptor)
             .addInterceptor(langInterceptor)
             .connectTimeout(30, TimeUnit.SECONDS)
             .build()
 
-    // в данном случае можно было писать просто addConverterFactory(GsonConverterFactory.create()), зависимость была вынесена для примера
     @Provides
+    @Singleton
     fun provideRetrofit(
         client: OkHttpClient,
-        factory: Converter.Factory
-    ) = Retrofit.Builder()
+    ): Retrofit = Retrofit.Builder()
         .client(client)
         .baseUrl(BuildConfig.API_ENDPOINT)
-        .addConverterFactory(factory)
+        .addConverterFactory(GsonConverterFactory.create())
         .build()
-
-    @Provides
-    fun provideGsonFactory(): Converter.Factory = GsonConverterFactory.create()
 }

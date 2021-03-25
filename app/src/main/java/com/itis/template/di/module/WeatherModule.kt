@@ -14,6 +14,7 @@ class WeatherModule {
         weatherApi: WeatherApi
     ): WeatherRepository = WeatherRepositoryImpl(weatherApi)
 
+//    если не было бы @Inject constructor в классе MainPresenter, то писали бы зависимость такую зависимость
 //    @Provides
 //    fun provideMainPresenter(
 //        locationRepositoryImpl: LocationRepositoryImpl,
