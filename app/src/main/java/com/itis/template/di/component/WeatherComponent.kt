@@ -5,7 +5,7 @@ import com.itis.template.presentation.main.MainActivity
 import dagger.Subcomponent
 
 @Subcomponent(modules = [WeatherModule::class])
-interface WeatherSubComponent {
+interface WeatherComponent {
 
     fun inject(main: MainActivity)
 
@@ -14,6 +14,6 @@ interface WeatherSubComponent {
 
         fun setModule(weatherModule: WeatherModule): Builder
 
-        fun build(): WeatherSubComponent
+        fun build(): WeatherComponent
     }
 }
