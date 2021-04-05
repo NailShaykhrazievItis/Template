@@ -40,6 +40,13 @@ class MainActivity : AppCompatActivity() {
             mainTemp().observe(this@MainActivity, {
                 showWeather(it.toString())
             })
+            mainTempRx().observe(this@MainActivity, {
+                it.getOrNull()?.let {
+                    showWeather(it.toString())
+                } ?: kotlin.run {
+                    // showError()
+                }
+            })
         }
     }
 

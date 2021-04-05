@@ -8,11 +8,15 @@ class WeatherRepositoryImpl(
     private val weatherApi: WeatherApi
 ) : WeatherRepository {
 
-    override suspend fun getWeather(
+    override suspend fun getWeatherSusp(
         cityName: String
     ): WeatherResponse {
-        val result = weatherApi.getWeather(cityName)
+        val result = weatherApi.getWeatherSusp(cityName)
 //        dao.saveWeather(result)
         return result
     }
+
+    override fun getWeather(
+        cityName: String
+    ) = weatherApi.getWeather(cityName)
 }
