@@ -1,14 +1,14 @@
 package com.itis.template.presentation.main
 
-import com.itis.template.domain.FindCityUseCase
 import com.itis.template.domain.LocationRepository
+import com.itis.template.domain.WeatherInteractor
 import kotlinx.coroutines.launch
 import moxy.MvpPresenter
 import moxy.presenterScope
 import javax.inject.Inject
 
 class MainPresenter @Inject constructor(
-    private val findCityUseCase: FindCityUseCase,
+    private val findCityUseCase: WeatherInteractor,
     private val locationRepository: LocationRepository
 ) : MvpPresenter<MainView>() {
 

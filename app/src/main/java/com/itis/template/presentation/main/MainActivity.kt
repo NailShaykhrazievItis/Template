@@ -1,11 +1,13 @@
 package com.itis.template.presentation.main
 
+import android.content.Intent
 import android.location.Location
 import android.os.Bundle
 import android.view.View
 import com.google.android.material.snackbar.Snackbar
 import com.itis.template.R
 import com.itis.template.di.Injector
+import com.itis.template.presentation.auth.AuthActivity
 import com.itis.template.utils.getErrorMessage
 import kotlinx.android.synthetic.main.activity_main.*
 import moxy.MvpAppCompatActivity
@@ -74,5 +76,10 @@ class MainActivity : MvpAppCompatActivity(), MainView {
     private fun initListeners() {
         tv_hello.setOnClickListener { presenter.onHelloClick() }
         tv_location.setOnClickListener { presenter.onLocationClick() }
+        btn_login.setOnClickListener {
+            Intent(this, AuthActivity::class.java).also {
+                startActivity(it)
+            }
+        }
     }
 }

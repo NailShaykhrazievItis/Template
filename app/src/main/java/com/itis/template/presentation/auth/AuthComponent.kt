@@ -2,10 +2,12 @@ package com.itis.template.presentation.auth
 
 import com.itis.template.di.ActivityScope
 import com.itis.template.presentation.auth.signin.SignInFragment
+import com.itis.template.presentation.auth.signin.SignInModule
 import com.itis.template.presentation.auth.signup.SignUpFragment
+import com.itis.template.presentation.auth.signup.SignUpModule
 import dagger.Subcomponent
 
-@Subcomponent
+@Subcomponent(modules = [AuthModule::class, SignInModule::class, SignUpModule::class])
 @ActivityScope
 interface AuthComponent {
 

@@ -6,7 +6,7 @@ import javax.inject.Inject
 import javax.inject.Named
 import kotlin.coroutines.CoroutineContext
 
-class FindCityUseCase @Inject constructor(
+class WeatherInteractor @Inject constructor(
     private val weatherRepository: WeatherRepository,
     @Named("IO") private val context: CoroutineContext
 ) {

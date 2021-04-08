@@ -4,13 +4,14 @@ import android.app.Application
 import com.itis.template.di.module.AppModule
 import com.itis.template.di.module.NetModule
 import com.itis.template.di.module.RepoModule
+import com.itis.template.di.module.ViewModelFactoryModule
 import com.itis.template.presentation.auth.AuthComponent
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [AppModule::class, NetModule::class, RepoModule::class])
+@Component(modules = [AppModule::class, NetModule::class, RepoModule::class, ViewModelFactoryModule::class])
 interface AppComponent {
 
     fun weatherComponent(): WeatherComponent.Builder

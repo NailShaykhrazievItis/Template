@@ -1,7 +1,7 @@
 package com.itis.template.presentation.auth
 
+import androidx.lifecycle.ViewModel
 import com.itis.template.domain.UserInteractor
-import dagger.assisted.Assisted
 import javax.inject.Inject
 
 /*
@@ -9,11 +9,10 @@ import javax.inject.Inject
 *  ЖЦ скоупа контролится в onCreate() AuthActivity
 */
 class AuthViewModel @Inject constructor(
-    private val userInteractor: UserInteractor,
-    @Assisted private val userId: Int
-) {
+    private val userInteractor: UserInteractor
+): ViewModel() {
 
-    fun signIn(name: String, pass: String) {
-        userInteractor.signInUser(name, pass)
+    fun signIn(name: String, pass: String): Boolean {
+        return userInteractor.signInUser(name, pass)
     }
 }
