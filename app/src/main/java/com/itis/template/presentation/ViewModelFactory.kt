@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.itis.template.data.LocationRepositoryImpl
 import com.itis.template.domain.FindCityUseCase
+import com.itis.template.domain.SearchInteractor
 import com.itis.template.presentation.main.MainViewModel
 
 class ViewModelFactory(
@@ -14,7 +15,7 @@ class ViewModelFactory(
     override fun <T : ViewModel?> create(modelClass: Class<T>): T =
         when {
             modelClass.isAssignableFrom(MainViewModel::class.java) -> {
-                MainViewModel(findCityUseCase, locationRepository) as? T
+                MainViewModel(findCityUseCase, locationRepository, SearchInteractor()) as? T
                     ?: throw IllegalArgumentException("Unknown ViewModel class")
             }
             else -> {

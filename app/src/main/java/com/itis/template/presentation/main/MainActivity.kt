@@ -3,6 +3,7 @@ package com.itis.template.presentation.main
 import android.location.Location
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
@@ -15,12 +16,19 @@ import com.itis.template.data.api.ApiFactory
 import com.itis.template.domain.FindCityUseCase
 import com.itis.template.presentation.ViewModelFactory
 import com.itis.template.utils.getErrorMessage
+import com.itis.template.utils.observeOnUi
+import com.itis.template.utils.observeQuery
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.kotlin.subscribeBy
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var viewModel: MainViewModel
+
+    private var searchDisposable: Disposable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +38,11 @@ class MainActivity : AppCompatActivity() {
 
         initSubscribes()
         initListeners()
+    }
+
+    override fun onDestroy() {
+        searchDisposable?.dispose()
+        super.onDestroy()
     }
 
     private fun initSubscribes() {
@@ -46,6 +59,9 @@ class MainActivity : AppCompatActivity() {
                 } ?: kotlin.run {
                     // showError()
                 }
+            })
+            search().observe(this@MainActivity, {
+                Toast.makeText(this@MainActivity, "Find: $it", Toast.LENGTH_SHORT).show()
             })
         }
     }
@@ -96,5 +112,15 @@ class MainActivity : AppCompatActivity() {
     private fun initListeners() {
         tv_hello.setOnClickListener { viewModel.onHelloClick() }
         tv_location.setOnClickListener { viewModel.onLocationClick() }
+
+        searchDisposable = search_view.observeQuery()
+            .filter { it.length > 2 }
+            .debounce(600, TimeUnit.MILLISECONDS)
+            .distinctUntilChanged()
+            .observeOnUi()
+            .subscribeBy {
+                viewModel.onSearch(it)
+            }
+
     }
 }

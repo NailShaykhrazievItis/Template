@@ -26,7 +26,7 @@ class LocationRepositoryImpl(
     }
 
     @SuppressLint("MissingPermission")
-    fun getUserLocationSingle(): Single<Location> = Single.create { emitter ->
+    fun getUserLocationSingle(id: Int): Single<Location> = Single.create { emitter ->
         client.lastLocation.addOnSuccessListener {
             if (it != null) {
                 emitter.onSuccess(it)
