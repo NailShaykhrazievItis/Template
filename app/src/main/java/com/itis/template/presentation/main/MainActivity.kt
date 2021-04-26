@@ -1,8 +1,11 @@
 package com.itis.template.presentation.main
 
+import android.content.Intent
 import android.location.Location
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
 import com.itis.template.R
@@ -16,6 +19,13 @@ import kotlinx.coroutines.Dispatchers
 import moxy.MvpAppCompatActivity
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
+import ru.terrakok.cicerone.Navigator
+import ru.terrakok.cicerone.Screen
+import ru.terrakok.cicerone.android.support.SupportAppNavigator
+import ru.terrakok.cicerone.android.support.SupportAppScreen
+import ru.terrakok.cicerone.commands.BackTo
+import ru.terrakok.cicerone.commands.Command
+import ru.terrakok.cicerone.commands.Forward
 
 class MainActivity : MvpAppCompatActivity(), MainView {
 
@@ -24,6 +34,56 @@ class MainActivity : MvpAppCompatActivity(), MainView {
 
     @ProvidePresenter
     fun providePresenter(): MainPresenter = initPresenter()
+
+    private val navigator = object : Navigator {
+
+        override fun applyCommands(commands: Array<out Command>) {
+            commands.forEach {
+                when (it) {
+                    is Forward -> onForward(it.screen)
+                    is BackTo -> {
+
+                    }
+                    else -> {
+                    }
+                }
+            }
+        }
+
+        private fun onForward(screen: Screen) {
+            when (screen as SupportAppScreen) {
+                is Screens.LoginScreen, is Screens.ProfileScreen -> {
+                    screen.getActivityIntent(this@MainActivity)?.let {
+                        startActivity(it)
+                    }
+                }
+            }
+        }
+    }
+
+    private val appNavigator = object : SupportAppNavigator(this, R.id.container) {
+
+        override fun setupFragmentTransaction(
+            command: Command?,
+            currentFragment: Fragment?,
+            nextFragment: Fragment?,
+            fragmentTransaction: FragmentTransaction?
+        ) {
+            super.setupFragmentTransaction(
+                command,
+                currentFragment,
+                nextFragment,
+                fragmentTransaction
+            )
+        }
+
+        override fun createStartActivityOptions(
+            command: Command?,
+            activityIntent: Intent?
+        ): Bundle {
+            return super.createStartActivityOptions(command, activityIntent)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
