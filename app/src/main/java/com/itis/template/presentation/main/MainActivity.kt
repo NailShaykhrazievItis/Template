@@ -8,11 +8,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
+import com.itis.template.ApplicationDelegate
 import com.itis.template.R
 import com.itis.template.data.LocationRepositoryImpl
 import com.itis.template.data.WeatherRepositoryImpl
 import com.itis.template.data.api.ApiFactory
 import com.itis.template.domain.FindCityUseCase
+import com.itis.template.presentation.Screens
 import com.itis.template.utils.getErrorMessage
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
@@ -35,6 +37,37 @@ class MainActivity : MvpAppCompatActivity(), MainView {
     @ProvidePresenter
     fun providePresenter(): MainPresenter = initPresenter()
 
+    private val appNavigator = SupportAppNavigator(this, R.id.container)
+
+    private val appCustomNavigator = object : SupportAppNavigator(this, R.id.container) {
+
+        override fun applyCommand(command: Command?) {
+//            hideKeyboard()
+            super.applyCommand(command)
+        }
+
+        override fun setupFragmentTransaction(
+            command: Command,
+            currentFragment: Fragment,
+            nextFragment: Fragment,
+            fragmentTransaction: FragmentTransaction
+        ) {
+            super.setupFragmentTransaction(
+                command,
+                currentFragment,
+                nextFragment,
+                fragmentTransaction
+            )
+        }
+
+        override fun createStartActivityOptions(
+            command: Command?,
+            activityIntent: Intent?
+        ): Bundle {
+            return super.createStartActivityOptions(command, activityIntent)
+        }
+    }
+
     private val navigator = object : Navigator {
 
         override fun applyCommands(commands: Array<out Command>) {
@@ -42,7 +75,6 @@ class MainActivity : MvpAppCompatActivity(), MainView {
                 when (it) {
                     is Forward -> onForward(it.screen)
                     is BackTo -> {
-
                     }
                     else -> {
                     }
@@ -61,34 +93,20 @@ class MainActivity : MvpAppCompatActivity(), MainView {
         }
     }
 
-    private val appNavigator = object : SupportAppNavigator(this, R.id.container) {
-
-        override fun setupFragmentTransaction(
-            command: Command?,
-            currentFragment: Fragment?,
-            nextFragment: Fragment?,
-            fragmentTransaction: FragmentTransaction?
-        ) {
-            super.setupFragmentTransaction(
-                command,
-                currentFragment,
-                nextFragment,
-                fragmentTransaction
-            )
-        }
-
-        override fun createStartActivityOptions(
-            command: Command?,
-            activityIntent: Intent?
-        ): Bundle {
-            return super.createStartActivityOptions(command, activityIntent)
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initListeners()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        ApplicationDelegate.INSTANCE.navigatorHolder.setNavigator(appNavigator)
+    }
+
+    override fun onPause() {
+        ApplicationDelegate.INSTANCE.navigatorHolder.removeNavigator()
+        super.onPause()
     }
 
     override fun checkLocationPermission() {
@@ -136,11 +154,12 @@ class MainActivity : MvpAppCompatActivity(), MainView {
         },
         locationRepository = LocationRepositoryImpl(
             client = LocationServices.getFusedLocationProviderClient(this)
-        )
+        ),
+        router = ApplicationDelegate.INSTANCE.router
     )
 
     private fun initListeners() {
         tv_hello.setOnClickListener { presenter.onHelloClick() }
-        tv_location.setOnClickListener { presenter.onLocationClick() }
+        tv_location.setOnClickListener { presenter.onNextClick() }
     }
 }
