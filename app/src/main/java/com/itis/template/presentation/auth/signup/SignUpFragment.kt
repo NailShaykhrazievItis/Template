@@ -15,15 +15,15 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val authViewModel: AuthViewModel =
-        ViewModelProvider(this, viewModelFactory).get(AuthViewModel::class.java)
-    private val signUpViewModel: SignUpViewModel =
-        ViewModelProvider(this, viewModelFactory).get(SignUpViewModel::class.java)
+    private lateinit var authViewModel: AuthViewModel
+    private lateinit var signUpViewModel: SignUpViewModel
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
         (activity as AuthActivity).authComponent.inject(this)
+        authViewModel = ViewModelProvider(this, viewModelFactory).get(AuthViewModel::class.java)
+        signUpViewModel = ViewModelProvider(this, viewModelFactory).get(SignUpViewModel::class.java)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

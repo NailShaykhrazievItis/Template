@@ -17,8 +17,6 @@ interface AuthComponent {
 
     @Subcomponent.Factory
     interface Factory {
-        // при вызове create() каждый раз будет создаваться новый инстанс данного компонента, и всех его зависимостей.
-        // Поэтому его не нужно нулить, гб почистит старый инстанс
         fun create(): AuthComponent
     }
 }
