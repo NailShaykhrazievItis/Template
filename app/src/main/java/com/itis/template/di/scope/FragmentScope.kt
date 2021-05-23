@@ -1,4 +1,4 @@
-package com.itis.template.di
+package com.itis.template.di.scope
 
 import javax.inject.Scope
 

@@ -6,16 +6,21 @@ import android.os.Bundle
 import android.view.View
 import com.google.android.material.snackbar.Snackbar
 import com.itis.template.R
-import com.itis.template.di.Injector
 import com.itis.template.presentation.auth.AuthActivity
 import com.itis.template.utils.getErrorMessage
+import dagger.android.AndroidInjection
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasAndroidInjector
 import kotlinx.android.synthetic.main.activity_main.*
 import moxy.MvpAppCompatActivity
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import javax.inject.Inject
 
-class MainActivity : MvpAppCompatActivity(), MainView {
+class MainActivity : MvpAppCompatActivity(), MainView, HasAndroidInjector {
+
+    @Inject
+    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any?>
 
     @Inject
     @InjectPresenter
@@ -25,16 +30,13 @@ class MainActivity : MvpAppCompatActivity(), MainView {
     fun providePresenter(): MainPresenter = presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Injector.plusWeatherComponent().inject(this)
+        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initListeners()
     }
 
-    override fun onDestroy() {
-        Injector.clearWeatherComponent()
-        super.onDestroy()
-    }
+    override fun androidInjector() = dispatchingAndroidInjector
 
     override fun checkLocationPermission() {
 //        presenter.onLocationAccess()

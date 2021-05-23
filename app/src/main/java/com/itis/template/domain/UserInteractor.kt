@@ -1,6 +1,6 @@
 package com.itis.template.domain
 
-import com.itis.template.di.ActivityScope
+import com.itis.template.di.scope.ActivityScope
 import javax.inject.Inject
 
 @ActivityScope

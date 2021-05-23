@@ -11,10 +11,19 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Named
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 private const val QUERY_API_KEY = "appid"
 private const val QUERY_LANG_KEY = "lang"
+
+@Retention(AnnotationRetention.BINARY)
+@Qualifier
+annotation class LoggingIntercept
+
+@Retention(AnnotationRetention.BINARY)
+@Qualifier
+annotation class ApiIntercept
 
 @Module
 class NetModule {
@@ -25,12 +34,12 @@ class NetModule {
 
     @Provides
     @Singleton
-    @Named("loggingInterceptor")
+    @LoggingIntercept
     fun provideLoggingInterceptor(): Interceptor = LoggingInterceptor()
 
     @Provides
     @Singleton
-    @Named("apiInterceptor")
+    @ApiIntercept
     fun provideApiKeyInterceptor(): Interceptor = Interceptor { chain ->
         val original = chain.request()
         original.url().newBuilder()
@@ -61,9 +70,9 @@ class NetModule {
     @Provides
     @Singleton
     fun provideClient(
-        @Named("apiInterceptor") apiKeyInterceptor: Interceptor,
+        @ApiIntercept apiKeyInterceptor: Interceptor,
+        @LoggingIntercept loggingInterceptor: Interceptor,
         @Named("langInterceptor") langInterceptor: Interceptor,
-        @Named("loggingInterceptor") loggingInterceptor: Interceptor,
     ): OkHttpClient = OkHttpClient.Builder()
             .addInterceptor(apiKeyInterceptor)
             .addInterceptor(loggingInterceptor)
