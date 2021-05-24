@@ -1,25 +1,15 @@
 package com.itis.template
 
 import android.app.Application
-import com.itis.template.di.DaggerAppComponent
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
+import dagger.hilt.android.HiltAndroidApp
 import moxy.MvpFacade
-import javax.inject.Inject
 
-class ApplicationDelegate : Application(), HasAndroidInjector {
-
-    @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
+@HiltAndroidApp
+class ApplicationDelegate : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        DaggerAppComponent.builder()
-            .application(this)
-            .build()
-            .inject(this)
         MvpFacade.init()
     }
 
-    override fun androidInjector() = dispatchingAndroidInjector
 }

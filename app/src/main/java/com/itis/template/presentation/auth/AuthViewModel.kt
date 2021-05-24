@@ -2,12 +2,10 @@ package com.itis.template.presentation.auth
 
 import androidx.lifecycle.ViewModel
 import com.itis.template.domain.UserInteractor
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-/*
-*  AuthViewModel будет один и тот во всех экранах в рамках одного скоупа.
-*  ЖЦ скоупа контролится в onCreate() AuthActivity
-*/
+@HiltViewModel
 class AuthViewModel @Inject constructor(
     private val userInteractor: UserInteractor
 ): ViewModel() {

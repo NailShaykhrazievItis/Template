@@ -2,20 +2,15 @@ package com.itis.template.presentation.auth
 
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.lifecycle.ViewModelProvider
+import androidx.appcompat.app.AppCompatActivity
 import com.itis.template.R
 import com.itis.template.presentation.auth.signin.SignInFragment
-import dagger.android.support.DaggerAppCompatActivity
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
-class AuthActivity : DaggerAppCompatActivity() {
+@AndroidEntryPoint
+class AuthActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    val authViewModel: AuthViewModel by viewModels {
-        viewModelFactory
-    }
+    val authViewModel: AuthViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

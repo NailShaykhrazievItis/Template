@@ -5,6 +5,8 @@ import com.itis.template.data.api.LoggingInterceptor
 import com.itis.template.data.api.WeatherApi
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -12,7 +14,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Named
 import javax.inject.Qualifier
-import javax.inject.Singleton
 
 private const val QUERY_API_KEY = "appid"
 private const val QUERY_LANG_KEY = "lang"
@@ -26,19 +27,17 @@ annotation class LoggingIntercept
 annotation class ApiIntercept
 
 @Module
+@InstallIn(SingletonComponent::class)
 class NetModule {
 
     @Provides
-    @Singleton
     fun provideWeatherApi(retrofit: Retrofit): WeatherApi = retrofit.create(WeatherApi::class.java)
 
     @Provides
-    @Singleton
     @LoggingIntercept
     fun provideLoggingInterceptor(): Interceptor = LoggingInterceptor()
 
     @Provides
-    @Singleton
     @ApiIntercept
     fun provideApiKeyInterceptor(): Interceptor = Interceptor { chain ->
         val original = chain.request()
@@ -53,7 +52,6 @@ class NetModule {
     }
 
     @Provides
-    @Singleton
     @Named("langInterceptor")
     fun provideLangInterceptor(): Interceptor = Interceptor { chain ->
         val original = chain.request()
@@ -68,7 +66,6 @@ class NetModule {
     }
 
     @Provides
-    @Singleton
     fun provideClient(
         @ApiIntercept apiKeyInterceptor: Interceptor,
         @LoggingIntercept loggingInterceptor: Interceptor,
@@ -81,7 +78,6 @@ class NetModule {
             .build()
 
     @Provides
-    @Singleton
     fun provideRetrofit(
         client: OkHttpClient,
     ): Retrofit = Retrofit.Builder()

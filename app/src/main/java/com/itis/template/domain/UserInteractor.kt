@@ -1,9 +1,9 @@
 package com.itis.template.domain
 
-import com.itis.template.di.scope.ActivityScope
+import dagger.hilt.android.scopes.ActivityRetainedScoped
 import javax.inject.Inject
 
-@ActivityScope
+@ActivityRetainedScoped
 class UserInteractor @Inject constructor(
     private val authRepository: AuthRepository
 ) {
