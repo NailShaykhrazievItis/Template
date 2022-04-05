@@ -1,4 +1,4 @@
-package com.itis.template.di.module
+package com.itis.template.presentation.auth
 
 import com.itis.template.di.scope.FragmentScope
 import com.itis.template.presentation.auth.signin.SignInFragment

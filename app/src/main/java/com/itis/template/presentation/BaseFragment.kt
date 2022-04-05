@@ -1,6 +1,7 @@
 package com.itis.template.presentation
 
 import android.content.Context
+import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
@@ -10,7 +11,9 @@ import dagger.android.HasAndroidInjector
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
-abstract class BaseFragment(layoutId: Int) : Fragment(layoutId), HasAndroidInjector {
+abstract class BaseFragment(
+    @LayoutRes layoutId: Int
+) : Fragment(layoutId), HasAndroidInjector {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -26,4 +29,4 @@ abstract class BaseFragment(layoutId: Int) : Fragment(layoutId), HasAndroidInjec
     override fun androidInjector() = dispatchingAndroidInjector
 }
 
-inline fun <reified VM : ViewModel> BaseFragment.viewModels() = viewModels<VM> { viewModelFactory }
+inline fun <reified VM : ViewModel> BaseFragment.viewModel() = viewModels<VM> { viewModelFactory }
